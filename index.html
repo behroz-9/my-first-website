@@ -1,113 +1,378 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Active & Inactive Tabs Tracker</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    ul { list-style: none; padding: 0; }
-    li { padding: 8px 12px; margin: 6px 0; border-radius: 4px; background: #f4f4f4; display: flex; align-items: center; gap: 10px; }
-    .current { font-weight: bold; border-left: 4px solid #007bff; }
-    .badge { padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: bold; text-transform: uppercase; }
-    .status-active { background-color: #28a745; color: white; }
-    .status-inactive { background-color: #6c757d; color: white; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abu Hujaifa Afsar — GitHub README Demo</title>
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: #0a0a0f;
+    color: #e8e8e8;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+  }
+  a { color: inherit; text-decoration: none; }
+  .container { max-width: 1150px; margin: auto; padding: 0 22px 50px; }
+  .hero {
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #10252a, #15112b, #071b22);
+    border-bottom-left-radius: 55% 20%;
+    border-bottom-right-radius: 55% 20%;
+  }
+  .hero:after {
+    content: "";
+    position: absolute;
+    width: 600px;
+    height: 180px;
+    bottom: -110px;
+    background: #0a0a0f;
+    border-radius: 50%;
+  }
+  h1 {
+    margin: 0;
+    color: #c8f557;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    letter-spacing: 1px;
+  }
+  .subtitle { color: #38bdf8; font-size: 1rem; margin-top: 8px; }
+  .typing {
+    display: inline-block;
+    margin: 30px 0 8px;
+    color: #c8f557;
+    font-family: "Courier New", monospace;
+    font-size: 1.25rem;
+    border-right: 2px solid #c8f557;
+    white-space: nowrap;
+    overflow: hidden;
+    animation: typing 4s steps(42,end) infinite alternate, blink .7s infinite;
+  }
+  @keyframes typing { from { max-width: 0 } to { max-width: 100% } }
+  @keyframes blink { 50% { border-color: transparent } }
+  .terminal { color: #38bdf8; font-family: monospace; font-size: .9rem; margin: 10px auto 20px; }
+  .badges { display: flex; justify-content: center; flex-wrap: wrap; gap: 9px; margin: 20px 0; }
+  .badge {
+    padding: 8px 14px;
+    border-radius: 5px;
+    background: #101015;
+    border: 1px solid #272732;
+    font-weight: bold;
+    font-size: .8rem;
+  }
+  .green { color: #c8f557; }
+  .blue { color: #38bdf8; }
+  .red { color: #ff6b6b; }
+
+  section {
+    margin-top: 35px;
+    padding-top: 10px;
+  }
+  .divider {
+    height: 3px;
+    margin: 20px 0;
+    background: linear-gradient(90deg, transparent, #38bdf8, #c8f557, transparent);
+    opacity: .6;
+  }
+  h2 { color: #c8f557; font-family: monospace; font-size: 1.45rem; }
+  h3 { color: #38bdf8; }
+  .codebox {
+    background: #050508;
+    border: 1px solid #24242c;
+    border-radius: 10px;
+    padding: 20px;
+    overflow-x: auto;
+    box-shadow: 0 0 30px rgba(56,189,248,.06);
+  }
+  pre { margin: 0; color: #ddd; font-family: "Courier New", monospace; font-size: .9rem; }
+  .skills { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+  .skill {
+    background: #101015;
+    border: 1px solid #2a2a32;
+    border-radius: 6px;
+    padding: 8px 13px;
+    font-weight: bold;
+    color: #c8f557;
+  }
+  .skill:nth-child(even) { color: #38bdf8; }
+  .projects {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  .card {
+    background: linear-gradient(145deg, #101015, #0c0c11);
+    border: 1px solid #292932;
+    border-radius: 12px;
+    padding: 22px;
+    transition: transform .2s, border-color .2s;
+  }
+  .card:hover { transform: translateY(-5px); border-color: #38bdf8; }
+  .stack span {
+    display: inline-block;
+    background: #17171e;
+    border-radius: 4px;
+    padding: 3px 7px;
+    margin: 3px;
+    color: #c8f557;
+    font-family: monospace;
+    font-size: .8rem;
+  }
+  .research {
+    background: #050508;
+    border-left: 3px solid #c8f557;
+    padding: 15px 20px;
+    margin: 15px 0;
+    border-radius: 5px;
+  }
+  .research code { color: #bdbdc7; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { border: 1px solid #292932; padding: 13px; text-align: center; }
+  th { color: #c8f557; background: #111118; }
+  td { color: #ccc; }
+  .quote {
+    text-align: center;
+    color: #c8f557;
+    font-family: monospace;
+    font-size: 1rem;
+    padding: 25px 10px;
+  }
+  footer {
+    margin-top: 30px;
+    padding: 35px 20px;
+    text-align: center;
+    background: linear-gradient(135deg, #101d21, #17112a);
+    border-top-left-radius: 50% 30%;
+    border-top-right-radius: 50% 30%;
+  }
+  .footer-name { color: #c8f557; font-family: monospace; }
+  @media (max-width: 750px) {
+    .projects { grid-template-columns: 1fr; }
+    .typing { font-size: .95rem; }
+    table { font-size: .75rem; }
+    .container { padding: 0 14px 35px; }
+  }
+</style>
 </head>
+
 <body>
-  <h2>Your Tab ID: <span id="my-id"></span></h2>
-  <h3>All Open Tabs Status:</h3>
-  <ul id="tab-list"></ul>
 
-  <script>
-    const currentTabId = 'session-' + Math.random().toString(36).substr(2, 9);
-    document.getElementById('my-id').textContent = currentTabId;
+<header class="hero">
+  <div>
+    <h1>Abu Hujaifa Afsar</h1>
+    <div class="subtitle">Full Stack Engineer • AI Researcher • IoT Architect</div>
 
-    const channel = new BroadcastChannel('session_tracker');
+    <div class="typing">🚀 Building next-gen full-stack systems</div>
 
-    // Store state of all known tabs: tabId -> { isFocused: boolean }
-    const tabsMap = new Map();
+    <div class="terminal">
+      $ whoami → Abu Hujaifa Afsar<br>
+      $ cat location.txt → Dhaka, Bangladesh<br>
+      $ echo $STATUS → Open to Opportunities<br>
+      $ ./passion.sh → AI | Web | IoT | Research
+    </div>
 
-    function getIsFocused() {
-      return document.hasFocus() && !document.hidden;
-    }
+    <div class="badges">
+      <a class="badge blue" href="https://github.com/behroz-9" target="_blank">GitHub</a>
+      <a class="badge blue" href="https://github.com/behroz-9/Personal-Portfolio" target="_blank">Portfolio</a>
+      <a class="badge red" href="mailto:fayjullahhaqueemon@gmail.com">Email</a>
+      <a class="badge green" href="https://www.uiu.ac.bd/" target="_blank">UIU</a>
+    </div>
+  </div>
+</header>
 
-    // Set initial state for this tab
-    tabsMap.set(currentTabId, { isFocused: getIsFocused() });
+<main class="container">
 
-    function updateUI() {
-      const list = document.getElementById('tab-list');
-      list.innerHTML = '';
+  <div class="divider"></div>
 
-      tabsMap.forEach((state, id) => {
-        const li = document.createElement('li');
-        if (id === currentTabId) {
-          li.classList.add('current');
-        }
+  <section>
+    <h2>⚡ $ cat about_me.json</h2>
+    <div class="codebox">
+<pre>{
+  "name"        : "Abu Hujaifa Afsar",
+  "alias"       : "FHE.dev",
+  "location"    : "Dhaka, Bangladesh 🇧🇩",
+  "university"  : "United International University (UIU)",
+  "degree"      : "B.Sc. in Computer Science & Engineering",
+  "major"       : "Data Science",
+  "cgpa"        : 3.59,
+  "status"      : "Open to Internships & Collaborations ✅",
+  "interests"   : ["AI / ML", "Full-Stack Dev", "IoT Systems", "Cloud Research"],
+  "clubs"       : ["UIU Computer Club — General Member"],
+  "achievement": "🏆 5th Runner Up — UIU CSE Project Show 2025"
+}</pre>
+    </div>
+  </section>
 
-        const idText = document.createElement('span');
-        idText.textContent = id + (id === currentTabId ? ' (This Tab)' : '');
-        li.appendChild(idText);
+  <div class="divider"></div>
 
-        const badge = document.createElement('span');
-        badge.className = 'badge ' + (state.isFocused ? 'status-active' : 'status-inactive');
-        badge.textContent = state.isFocused ? 'Active (In Use)' : 'Inactive (Background)';
-        li.appendChild(badge);
+  <section>
+    <h2>🛸 $ ls ./skills/</h2>
+    <h3>// Languages</h3>
+    <div class="skills">
+      <span class="skill">Python</span><span class="skill">JavaScript</span>
+      <span class="skill">PHP</span><span class="skill">Java</span>
+      <span class="skill">C++</span><span class="skill">HTML5</span><span class="skill">CSS3</span>
+    </div>
 
-        list.appendChild(li);
-      });
-    }
+    <h3>// Frameworks & Tools</h3>
+    <div class="skills">
+      <span class="skill">Spring Boot</span><span class="skill">Laravel</span>
+      <span class="skill">React</span><span class="skill">Bootstrap</span>
+      <span class="skill">OpenCV</span><span class="skill">Scikit-Learn</span>
+      <span class="skill">Figma</span><span class="skill">Postman</span>
+    </div>
 
-    function broadcastState() {
-      const isFocused = getIsFocused();
-      tabsMap.set(currentTabId, { isFocused });
-      updateUI();
-      channel.postMessage({
-        type: 'TAB_STATE_UPDATE',
-        tabId: currentTabId,
-        isFocused: isFocused
-      });
-    }
+    <h3>// Databases & DevOps</h3>
+    <div class="skills">
+      <span class="skill">MySQL</span><span class="skill">PostgreSQL</span>
+      <span class="skill">Git</span><span class="skill">GitHub</span>
+    </div>
+  </section>
 
-    channel.onmessage = (event) => {
-      const { type, tabId, isFocused } = event.data;
+  <div class="divider"></div>
 
-      if (type === 'NEW_TAB_ANNOUNCE') {
-        tabsMap.set(tabId, { isFocused });
-        updateUI();
-        // Respond with this tab's state
-        channel.postMessage({
-          type: 'TAB_PING_RESPONSE',
-          tabId: currentTabId,
-          isFocused: getIsFocused()
-        });
-      } else if (type === 'TAB_PING_RESPONSE' || type === 'TAB_STATE_UPDATE') {
-        tabsMap.set(tabId, { isFocused });
-        updateUI();
-      } else if (type === 'TAB_CLOSED') {
-        tabsMap.delete(tabId);
-        updateUI();
-      }
-    };
+  <section>
+    <h2>🔮 $ ls ./projects/ --sort=impact</h2>
+    <div class="projects">
 
-    // 1. Announce this tab to all open tabs
-    channel.postMessage({
-      type: 'NEW_TAB_ANNOUNCE',
-      tabId: currentTabId,
-      isFocused: getIsFocused()
-    });
+      <article class="card">
+        <h3>📚 Shelf To Tales</h3>
+        <p><i>Innovative 3D Virtual Bookshelf Platform</i></p>
+        <p>An interactive catalog experience designed for avid book enthusiasts featuring 3D visualizations, personalized reading history, and a rich Java Spring Boot backend.</p>
+        <div class="stack">
+          <span>Java</span><span>Spring Boot</span><span>React.js</span><span>HTML/CSS</span><span>MySQL</span>
+        </div>
+      </article>
 
-    // 2. Track focus state changes (switching tabs or windows)
-    window.addEventListener('focus', broadcastState);
-    window.addEventListener('blur', broadcastState);
-    document.addEventListener('visibilitychange', broadcastState);
+      <article class="card">
+        <h3>🌾 Smart Farm Fresh Storage</h3>
+        <p><i>🏆 5th Runner Up — UIU CSE Project Show 2025</i></p>
+        <p>IoT-driven cold storage with YOLOv8 vegetable classification, robotic arm sorting, RFID dashboards, and Peltier thermal regulation for rural farmers.</p>
+        <div class="stack">
+          <span>Python</span><span>YOLOv8</span><span>OpenCV</span><span>IoT</span><span>ESP32</span><span>RFID</span>
+        </div>
+      </article>
 
-    // 3. Track tab closure
-    window.addEventListener('beforeunload', () => {
-      channel.postMessage({ type: 'TAB_CLOSED', tabId: currentTabId });
-    });
+      <article class="card">
+        <h3>🧪 Software API Testing Tool</h3>
+        <p><i>Full API Lifecycle Automation Platform</i></p>
+        <p>A feature-rich testing platform supporting multi-environment variable bindings, JWT auto-token capture, structured pass/fail traceability, and complete JSON suite export/import.</p>
+        <div class="stack">
+          <span>JavaScript</span><span>API Testing</span><span>Automation</span>
+        </div>
+      </article>
 
-    // Initial render
-    updateUI();
-  </script>
+      <article class="card">
+        <h3>💼 Job Portal System</h3>
+        <p><i>Streamlined Recruitment Web Platform</i></p>
+        <p>A comprehensive recruitment matching platform built to connect employers with candidates via smart job listing filters, application tracking, and role-based authentication flows.</p>
+        <div class="stack">
+          <span>PHP</span><span>Laravel</span><span>MySQL</span><span>Bootstrap</span>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section>
+    <h2>🔬 $ cat ./research/papers.log</h2>
+
+    <div class="research">
+      <h3>📄 Microarchitectural Masking: A JIT-Based Adaptive Dispatcher for Resource-Resilient Serverless Computing</h3>
+      <code>
+        Status  : Academic Research Paper<br>
+        Problem : Noisy Neighbor interference in cloud serverless hosts<br>
+        Method  : Zero-privilege user-space JIT dispatcher<br>
+        Results : ~60% memory latency recovered, 0 performance degradation<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;29.6 kg CO₂e saved per million serverless invocations
+      </code>
+    </div>
+
+    <div class="research">
+      <h3>📄 AI-Driven Speech-Based Depression Detection System</h3>
+      <code>
+        Status  : Academic Research Paper<br>
+        Problem : Clinical vocal depression detection with limited clinical datasets<br>
+        Method  : SVM, XGBoost, CNN, RNN, LSTM & GMM with openSMILE feature extraction<br>
+        Metric  : Optimized Weighted Average Recall (WAR) across 5 architectures
+      </code>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section>
+    <h2>📊 $ git analytics --deep</h2>
+    <div class="codebox">
+<pre>
+GitHub Profile: behroz-9
+
+Profile Details
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Repositories        ███████████████░░░  Active
+Contributions        ████████████████░░  Growing
+Projects             █████████████████░  Building
+Open Source          ████████████░░░░░░  Expanding
+
+Most Used:
+Python • JavaScript • Java • PHP • C++
+
+Activity:
+██████████████████████████████████████
+</pre>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section>
+    <h2>🎯 $ cat ./roadmap.md</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>🏗️ Currently Building</th>
+          <th>🔭 Actively Researching</th>
+          <th>📚 Continuously Mastering</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Enterprise Spring Boot APIs</td>
+          <td>JIT Cloud Kernel Dispatchers</td>
+          <td>Deep Neural Architectures</td>
+        </tr>
+        <tr>
+          <td>Automated Testing Environments</td>
+          <td>Green Serverless Computing</td>
+          <td>Computer Vision Models</td>
+        </tr>
+        <tr>
+          <td>3D Interactive Interfaces</td>
+          <td>Audio Denoising Systems</td>
+          <td>Data Science Pipelines</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="quote">
+    "Passion for Code & Algorithms — Building meaningful projects, one line at a time."
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-name">&lt; Engineered with ⚡ by Abu Hujaifa Afsar /&gt;</div>
+</footer>
+
 </body>
 </html>
