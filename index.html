@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Active & Inactive Tabs Tracker</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    ul { list-style: none; padding: 0; }
+    li { padding: 8px 12px; margin: 6px 0; border-radius: 4px; background: #f4f4f4; display: flex; align-items: center; gap: 10px; }
+    .current { font-weight: bold; border-left: 4px solid #007bff; }
+    .badge { padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: bold; text-transform: uppercase; }
+    .status-active { background-color: #28a745; color: white; }
+    .status-inactive { background-color: #6c757d; color: white; }
+  </style>
+</head>
+<body>
+  <h2>Your Tab ID: <span id="my-id"></span></h2>
+  <h3>All Open Tabs Status:</h3>
+  <ul id="tab-list"></ul>
+
+  <script>
+    const currentTabId = 'session-' + Math.random().toString(36).substr(2, 9);
+    document.getElementById('my-id').textContent = currentTabId;
+
+    const channel = new BroadcastChannel('session_tracker');
+
+    // Store state of all known tabs: tabId -> { isFocused: boolean }
+    const tabsMap = new Map();
+
+    function getIsFocused() {
+      return document.hasFocus() && !document.hidden;
+    }
+
+    // Set initial state for this tab
+    tabsMap.set(currentTabId, { isFocused: getIsFocused() });
+
+    function updateUI() {
+      const list = document.getElementById('tab-list');
+      list.innerHTML = '';
+
+      tabsMap.forEach((state, id) => {
+        const li = document.createElement('li');
+        if (id === currentTabId) {
+          li.classList.add('current');
+        }
+
+        const idText = document.createElement('span');
+        idText.textContent = id + (id === currentTabId ? ' (This Tab)' : '');
+        li.appendChild(idText);
+
+        const badge = document.createElement('span');
+        badge.className = 'badge ' + (state.isFocused ? 'status-active' : 'status-inactive');
+        badge.textContent = state.isFocused ? 'Active (In Use)' : 'Inactive (Background)';
+        li.appendChild(badge);
+
+        list.appendChild(li);
+      });
+    }
+
+    function broadcastState() {
+      const isFocused = getIsFocused();
+      tabsMap.set(currentTabId, { isFocused });
+      updateUI();
+      channel.postMessage({
+        type: 'TAB_STATE_UPDATE',
+        tabId: currentTabId,
+        isFocused: isFocused
+      });
+    }
+
+    channel.onmessage = (event) => {
+      const { type, tabId, isFocused } = event.data;
+
+      if (type === 'NEW_TAB_ANNOUNCE') {
+        tabsMap.set(tabId, { isFocused });
+        updateUI();
+        // Respond with this tab's state
+        channel.postMessage({
+          type: 'TAB_PING_RESPONSE',
+          tabId: currentTabId,
+          isFocused: getIsFocused()
+        });
+      } else if (type === 'TAB_PING_RESPONSE' || type === 'TAB_STATE_UPDATE') {
+        tabsMap.set(tabId, { isFocused });
+        updateUI();
+      } else if (type === 'TAB_CLOSED') {
+        tabsMap.delete(tabId);
+        updateUI();
+      }
+    };
+
+    // 1. Announce this tab to all open tabs
+    channel.postMessage({
+      type: 'NEW_TAB_ANNOUNCE',
+      tabId: currentTabId,
+      isFocused: getIsFocused()
+    });
+
+    // 2. Track focus state changes (switching tabs or windows)
+    window.addEventListener('focus', broadcastState);
+    window.addEventListener('blur', broadcastState);
+    document.addEventListener('visibilitychange', broadcastState);
+
+    // 3. Track tab closure
+    window.addEventListener('beforeunload', () => {
+      channel.postMessage({ type: 'TAB_CLOSED', tabId: currentTabId });
+    });
+
+    // Initial render
+    updateUI();
+  </script>
+</body>
+</html>
